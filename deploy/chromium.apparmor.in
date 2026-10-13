@@ -1,0 +1,7 @@
+# Replace @CHROMIUM_EXECUTABLE@ with the exact installed shell binary path.
+# Do not load this template unchanged or disable the global sandbox policy.
+abi <abi/4.0>,
+include <tunables/global>
+profile huawei-training-camp-chromium @CHROMIUM_EXECUTABLE@ flags=(unconfined) {
+  userns,
+}

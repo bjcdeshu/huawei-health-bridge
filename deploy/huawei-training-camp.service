@@ -1,0 +1,26 @@
+[Unit]
+Description=Private Huawei health collection and bounded outage recovery
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+WorkingDirectory=/opt/huawei-health-bridge
+ExecStart=/usr/bin/python3 -B /opt/huawei-health-bridge/health.py sync --catch-up --catch-up-max-calls 2
+Environment=PYTHONUNBUFFERED=1
+UMask=0077
+StateDirectory=huawei-training-camp
+StateDirectoryMode=0700
+NoNewPrivileges=true
+AmbientCapabilities=CAP_SETUID
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/huawei-training-camp /var/lib/huawei-training-camp-browser
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+TimeoutStartSec=300
+Restart=no
+StandardOutput=journal
+StandardError=journal

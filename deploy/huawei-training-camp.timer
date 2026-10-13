@@ -1,0 +1,13 @@
+[Unit]
+Description=Collect Huawei health at noon and evening (UTC+8)
+
+[Timer]
+OnCalendar=*-*-* 12:00:00 Asia/Shanghai
+OnCalendar=*-*-* 22:00:00 Asia/Shanghai
+AccuracySec=1min
+RandomizedDelaySec=30
+Persistent=true
+Unit=huawei-training-camp.service
+
+[Install]
+WantedBy=timers.target
