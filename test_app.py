@@ -205,6 +205,9 @@ class RunnerTests(unittest.TestCase):
         self.write_auth(raw=raw + b" " * (a.MAX_AUTH_BYTES - len(raw)), mode=0o400)
         self.assertEqual(a.load_auth(self.auth), SYNTHETIC_AUTH)
         self.collect_mock()
+        # Restore write permission on this synthetic fixture before replacing
+        # it. Tests must work as a normal user, not depend on root bypassing 0400.
+        self.auth.chmod(0o600)
         self.write_auth(raw=raw + b" " * (a.MAX_AUTH_BYTES - len(raw) + 1))
         with patch.object(c, "OfficialTransport") as factory:
             code, payload = self.cli("collect")
